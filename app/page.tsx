@@ -94,6 +94,20 @@ const questions: Question[] = [
     correctAnswer: 1,
     category: "Iglesia",
   },
+  {
+    id: 60,
+    question: "¿Quién fue la última persona santificada de nacionalidad argentina?",
+    options: ["Artemides Zatti", "Nazaria Ignacia", "José Gabriel Brochero", "Mama Antula"],
+    correctAnswer: 3,
+    category: "Iglesia",
+  },
+  {
+    id: 61,
+    question: "¿Quién es el rector mayor de los salesianos?",
+    options: ["Ángel Fernández", "Pascual Chávez", "Juan Vecchi", "Fabio Attard"],
+    correctAnswer: 3,
+    category: "Iglesia",
+  },
 
   // Camrevoc
   {
@@ -378,6 +392,27 @@ const questions: Question[] = [
     id: 49,
     question: "¿Cómo se llama la medica que nos acompaña en los campas de verano?",
     options: ["Adelaida", "Claudia", "Andrea", "Paula"],
+    correctAnswer: 0,
+    category: "Camrevoc",
+  },
+  {
+    id: 62,
+    question: "¿Cuál fue el primer objetivo por el que fue fundado Camrevoc? Para ser...",
+    options: ["Monaguillos", "Animadores", "Curas", "Profesores"],
+    correctAnswer: 2,
+    category: "Camrevoc",
+  },
+  {
+    id: 63,
+    question: "¿Cómo se llama el hogar de Regina?",
+    options: ["La huella", "Orespa", "Arespa", "La mancha"],
+    correctAnswer: 1,
+    category: "Camrevoc",
+  },
+  {
+    id: 64,
+    question: '¿Quién dijo la célebre frase "El que no vive para servir no sirve para vivir"?',
+    options: ["Madre Teresa de Calcuta", "Don Bosco", "San Francisco de Sales", "Ceferino Namuncurá"],
     correctAnswer: 0,
     category: "Camrevoc",
   },
