@@ -5,9 +5,9 @@ import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge" 
 import { Input } from "@/components/ui/input"
-import { Trophy, Users, Play, RotateCcw, Check, X, Clock, Crown } from "lucide-react"
+import { Trophy, Users, Play, RotateCcw, Check, X, Clock, Crown, Volume2, VolumeX } from "lucide-react"
 
 interface Question {
   id: number
@@ -545,6 +545,7 @@ export default function CamreQuiz() {
   const [availableCharactersForCrown, setAvailableCharactersForCrown] = useState<string[]>([])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     // Crear elementos de audio
     wheelSpinSoundRef.current = new Audio("/spinning.mp3")
     wheelStopSoundRef.current = new Audio("/stop.mp3")
@@ -575,8 +576,10 @@ export default function CamreQuiz() {
     }
   }, [])
 
+  const [isSoundEnabled, setIsSoundEnabled] = useState(true)
+
   const playSound = (soundRef: React.RefObject<HTMLAudioElement>) => {
-    if (soundRef.current) {
+    if (isSoundEnabled && soundRef.current) {
       soundRef.current.currentTime = 0
       soundRef.current.play().catch(() => {
         // Ignorar errores de reproducción (autoplay policy)
@@ -1267,6 +1270,10 @@ export default function CamreQuiz() {
                 <span className="font-bold">{timeLeft > 0 ? `${timeLeft}s` : "¡Tiempo!"}</span>
               </div>
             )}
+            <Button variant="outline" size="icon" onClick={() => setIsSoundEnabled(!isSoundEnabled)} className="border-emerald-300 bg-transparent">
+              {isSoundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+              <span className="sr-only">{isSoundEnabled ? "Desactivar sonido" : "Activar sonido"}</span>
+            </Button>
             <Button variant="outline" onClick={resetGame} className="border-emerald-300 bg-transparent">
               <RotateCcw className="w-4 h-4 mr-2" />
               Reiniciar
