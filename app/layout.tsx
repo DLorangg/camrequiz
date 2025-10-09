@@ -7,6 +7,13 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Camrequiz',
   description: 'Diseñado por Damián Lorang',
+  icons: {
+    icon: '../public/images/camrevoc-logo.png', 
+  },
+  openGraph: {
+    title: 'CamreQuiz',
+    description: '¡Un juego de preguntas y respuestas para coleccionar personajes!',
+  },
 }
 
 export default function RootLayout({

@@ -714,13 +714,22 @@ export default function CamreQuiz() {
     }
 
     if (isCorrect) {
-      const isCrownQuestion = availableCharactersForCrown.includes(currentQuestion.category)
+      if (consecutiveCorrect + 1 === 2) {
+        // Racha de 2, activar selección de corona
+        const currentTeamCharacters = currentTeam === 1 ? team1Characters : team2Characters
+        const missingCharacters = categories
+          .filter((cat) => selectedCategories.includes(cat.name))
+          .filter((cat) => !currentTeamCharacters[cat.name])
+          .map((cat) => cat.name)
 
-      if (isCrownQuestion) {
-        setTimeout(() => {
-          playSound(characterWonSoundRef)
-        }, 500)
-
+        if (missingCharacters.length > 0) {
+          setAvailableCharactersForCrown(missingCharacters)
+          setShowCharacterSelection(true)
+        }
+        setConsecutiveCorrect((prev) => prev + 1)
+      } else if (consecutiveCorrect + 1 === 3) {
+        // Racha de 3, personaje ganado
+        playSound(characterWonSoundRef)
         if (currentTeam === 1) {
           setTeam1Characters((prev) => ({ ...prev, [currentQuestion.category]: true }))
         } else {
@@ -729,19 +738,6 @@ export default function CamreQuiz() {
         setConsecutiveCorrect(0)
       } else {
         setConsecutiveCorrect((prev) => prev + 1)
-
-        if (consecutiveCorrect + 1 === 3) {
-          setTimeout(() => {
-            playSound(characterWonSoundRef)
-          }, 500)
-
-          if (currentTeam === 1) {
-            setTeam1Characters((prev) => ({ ...prev, [currentQuestion.category]: true }))
-          } else {
-            setTeam2Characters((prev) => ({ ...prev, [currentQuestion.category]: true }))
-          }
-          setConsecutiveCorrect(0)
-        }
       }
     } else {
       setConsecutiveCorrect(0)
@@ -749,7 +745,12 @@ export default function CamreQuiz() {
   }
 
   const nextTurn = () => {
-    if (isCorrectAnswer) {
+    if (isCorrectAnswer && consecutiveCorrect === 2) {
+      // Después de una racha de 2, se mostró el menú corona.
+      // El jugador sigue su turno para la 3ra pregunta.
+      setShowResult(false)
+      setSelectedAnswer(null)
+    } else if (isCorrectAnswer) {
       setGameState("spinning")
       setShowSpinButton(true)
       setIsSpinning(false)
@@ -1209,11 +1210,11 @@ export default function CamreQuiz() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-red-50 p-4">
-      <div className="max-w-4xl mx-auto space-y-6">
+      <div className="max-w-7xl mx-auto space-y-4">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold text-emerald-700">CamreQuiz</h1>
           <div className="flex items-center space-x-4">
-            {selectedTime > 0 && gameState === "playing" && (
+            {selectedTime > 0 && (
               <div
                 className={`flex items-center space-x-2 px-3 py-2 rounded-lg ${
                   timeLeft <= 10
@@ -1234,189 +1235,184 @@ export default function CamreQuiz() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <Card className="bg-gradient-to-br from-emerald-50 to-white border-2 border-emerald-200">
-            <CardContent className="pt-4">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-emerald-700">{team1Name}</h3>
-                  {currentTeam === 1 && <Badge className="bg-emerald-600">Turno Actual</Badge>}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="space-y-4">
+            <Card className="bg-gradient-to-br from-emerald-50 to-white border-2 border-emerald-200">
+              <CardContent className="pt-4">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-bold text-emerald-700">{team1Name}</h3>
+                    {currentTeam === 1 && <Badge className="bg-emerald-600">Turno Actual</Badge>}
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Crown className="w-4 h-4 text-yellow-600" />
+                    <span className="text-sm font-medium text-gray-600">Coronas ganadas:</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {Object.keys(team1Characters)
+                      .filter((cat) => selectedCategories.includes(cat))
+                      .map((categoryName) => {
+                        const category = categories.find((c) => c.name === categoryName)
+                        return (
+                          <div
+                            key={categoryName}
+                            className="flex items-center space-x-1 bg-yellow-100 border-2 border-yellow-400 rounded-full px-3 py-1"
+                          >
+                            <span className="text-lg">{category?.icon}</span>
+                            <span className="text-xs font-semibold text-gray-700">{categoryName}</span>
+                          </div>
+                        )
+                      })}
+                    {Object.keys(team1Characters).filter((cat) => selectedCategories.includes(cat)).length === 0 && (
+                      <span className="text-sm text-gray-400 italic">Ninguna aún</span>
+                    )}
+                  </div>
+                  <p className="text-xs text-gray-500">
+                    {Object.keys(team1Characters).filter((cat) => selectedCategories.includes(cat)).length}/
+                    {selectedCategories.length} personajes
+                  </p>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Crown className="w-4 h-4 text-yellow-600" />
-                  <span className="text-sm font-medium text-gray-600">Coronas ganadas:</span>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {Object.keys(team1Characters)
-                    .filter((cat) => selectedCategories.includes(cat))
-                    .map((categoryName) => {
-                      const category = categories.find((c) => c.name === categoryName)
-                      return (
-                        <div
-                          key={categoryName}
-                          className="flex items-center space-x-1 bg-yellow-100 border-2 border-yellow-400 rounded-full px-3 py-1"
-                        >
-                          <span className="text-lg">{category?.icon}</span>
-                          <span className="text-xs font-semibold text-gray-700">{categoryName}</span>
-                        </div>
-                      )
-                    })}
-                  {Object.keys(team1Characters).filter((cat) => selectedCategories.includes(cat)).length === 0 && (
-                    <span className="text-sm text-gray-400 italic">Ninguna aún</span>
-                  )}
-                </div>
-                <p className="text-xs text-gray-500">
-                  {Object.keys(team1Characters).filter((cat) => selectedCategories.includes(cat)).length}/
-                  {selectedCategories.length} personajes
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-gradient-to-br from-red-50 to-white border-2 border-red-200">
-            <CardContent className="pt-4">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-red-700">{team2Name}</h3>
-                  {currentTeam === 2 && <Badge className="bg-red-600">Turno Actual</Badge>}
+            <Card className="bg-gradient-to-br from-red-50 to-white border-2 border-red-200">
+              <CardContent className="pt-4">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-bold text-red-700">{team2Name}</h3>
+                    {currentTeam === 2 && <Badge className="bg-red-600">Turno Actual</Badge>}
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Crown className="w-4 h-4 text-yellow-600" />
+                    <span className="text-sm font-medium text-gray-600">Coronas ganadas:</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {Object.keys(team2Characters)
+                      .filter((cat) => selectedCategories.includes(cat))
+                      .map((categoryName) => {
+                        const category = categories.find((c) => c.name === categoryName)
+                        return (
+                          <div
+                            key={categoryName}
+                            className="flex items-center space-x-1 bg-yellow-100 border-2 border-yellow-400 rounded-full px-3 py-1"
+                          >
+                            <span className="text-lg">{category?.icon}</span>
+                            <span className="text-xs font-semibold text-gray-700">{categoryName}</span>
+                          </div>
+                        )
+                      })}
+                    {Object.keys(team2Characters).filter((cat) => selectedCategories.includes(cat)).length === 0 && (
+                      <span className="text-sm text-gray-400 italic">Ninguna aún</span>
+                    )}
+                  </div>
+                  <p className="text-xs text-gray-500">
+                    {Object.keys(team2Characters).filter((cat) => selectedCategories.includes(cat)).length}/
+                    {selectedCategories.length} personajes
+                  </p>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Crown className="w-4 h-4 text-yellow-600" />
-                  <span className="text-sm font-medium text-gray-600">Coronas ganadas:</span>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {Object.keys(team2Characters)
-                    .filter((cat) => selectedCategories.includes(cat))
-                    .map((categoryName) => {
-                      const category = categories.find((c) => c.name === categoryName)
-                      return (
-                        <div
-                          key={categoryName}
-                          className="flex items-center space-x-1 bg-yellow-100 border-2 border-yellow-400 rounded-full px-3 py-1"
-                        >
-                          <span className="text-lg">{category?.icon}</span>
-                          <span className="text-xs font-semibold text-gray-700">{categoryName}</span>
+              </CardContent>
+            </Card>
+
+            {consecutiveCorrect > 0 && (
+              <Card className="bg-green-100 border-green-300">
+                <CardContent className="pt-4">
+                  <div className="text-center">
+                    <p className="font-semibold text-green-700">
+                      ¡Racha de {consecutiveCorrect}!{" "}
+                      {consecutiveCorrect === 2
+                        ? "¡Responde bien para ganar el personaje!"
+                        : `${3 - consecutiveCorrect} más para ganar el personaje`}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+
+          <Card className="bg-white flex flex-col">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <Badge variant="outline" className="border-emerald-300">
+                  {categories.find((c) => c.name === currentQuestion.category)?.icon} {currentQuestion.category}
+                </Badge>
+                <span className="text-sm text-gray-500">{currentTeam === 1 ? team1Name : team2Name}</span>
+              </div>
+              <CardTitle className="text-xl text-balance pt-2">{currentQuestion.question}</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 flex-grow flex flex-col justify-between">
+              <div className="grid gap-3">
+                {currentQuestion.options.map((option, index) => (
+                  <Button
+                    key={index}
+                    variant={
+                      showResult
+                        ? index === currentQuestion.correctAnswer
+                          ? "default"
+                          : selectedAnswer === index
+                            ? "destructive"
+                            : "outline"
+                        : selectedAnswer === index
+                          ? "default"
+                          : "outline"
+                    }
+                    className="justify-start text-left h-auto p-4"
+                    onClick={() => handleAnswerSelect(index)}
+                    disabled={showResult || (selectedTime > 0 && timeLeft === 0)}
+                  >
+                    <span className="font-semibold mr-3">{String.fromCharCode(65 + index)}.</span>
+                    {option}
+                  </Button>
+                ))}
+              </div>
+
+              <div className="mt-auto pt-4">
+                {!showResult && (
+                  <Button
+                    onClick={submitAnswer}
+                    disabled={selectedAnswer === null || (selectedTime > 0 && timeLeft === 0)}
+                    className="w-full bg-emerald-600 hover:bg-emerald-700"
+                    size="lg"
+                  >
+                    Confirmar Respuesta
+                  </Button>
+                )}
+
+                {showResult && (
+                  <div className="space-y-4">
+                    <div className="text-center p-4 rounded-lg bg-gray-50">
+                      {isCorrectAnswer ? (
+                        <div className="text-green-600">
+                          <p className="font-semibold text-lg">¡Correcto! 🎉</p>
+                          {consecutiveCorrect === 3 ? (
+                            <p className="font-bold text-green-700">
+                              ¡Ganaste el personaje {categories.find((c) => c.name === currentQuestion.category)?.icon}
+                              !
+                            </p>
+                          ) : consecutiveCorrect === 2 ? (
+                            <p>¡Ahora elige un personaje para ganar!</p>
+                          ) : (
+                            <p>¡Continúa jugando!</p>
+                          )}
                         </div>
-                      )
-                    })}
-                  {Object.keys(team2Characters).filter((cat) => selectedCategories.includes(cat)).length === 0 && (
-                    <span className="text-sm text-gray-400 italic">Ninguna aún</span>
-                  )}
-                </div>
-                <p className="text-xs text-gray-500">
-                  {Object.keys(team2Characters).filter((cat) => selectedCategories.includes(cat)).length}/
-                  {selectedCategories.length} personajes
-                </p>
+                      ) : (
+                        <div className="text-red-600">
+                          <p className="font-semibold text-lg">
+                            {selectedTime > 0 && timeLeft === 0 ? "¡Se acabó el tiempo! ⏰" : "Incorrecto 😔"}
+                          </p>
+                          <p>La respuesta correcta era: {currentQuestion.options[currentQuestion.correctAnswer]}</p>
+                          <p className="text-sm">Turno para el otro equipo</p>
+                        </div>
+                      )}
+                    </div>
+                    <Button onClick={nextTurn} className="w-full bg-emerald-600 hover:bg-emerald-700" size="lg">
+                      {isCorrectAnswer && consecutiveCorrect !== 2 ? "Continuar" : "Cambiar Turno"}
+                    </Button>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
         </div>
-
-        {consecutiveCorrect > 0 && (
-          <Card className="bg-green-100 border-green-300">
-            <CardContent className="pt-4">
-              <div className="text-center">
-                <p className="font-semibold text-green-700">
-                  ¡Racha de {consecutiveCorrect}! {3 - consecutiveCorrect} más para ganar el personaje{" "}
-                  {categories.find((c) => c.name === selectedCategory)?.icon}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        <Card className="bg-white">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <Badge variant="outline" className="border-emerald-300">
-                {categories.find((c) => c.name === currentQuestion.category)?.icon} {currentQuestion.category}
-              </Badge>
-              <div className="flex items-center space-x-2">
-                {selectedTime > 0 && (
-                  <div
-                    className={`px-2 py-1 rounded text-sm font-medium ${
-                      timeLeft <= 10
-                        ? "bg-red-100 text-red-700"
-                        : timeLeft <= 20
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-emerald-100 text-emerald-700"
-                    }`}
-                  >
-                    {timeLeft > 0 ? `${timeLeft}s` : "¡Tiempo agotado!"}
-                  </div>
-                )}
-                <span className="text-sm text-gray-500">{currentTeam === 1 ? team1Name : team2Name}</span>
-              </div>
-            </div>
-            <CardTitle className="text-xl text-balance">{currentQuestion.question}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid gap-3">
-              {currentQuestion.options.map((option, index) => (
-                <Button
-                  key={index}
-                  variant={
-                    showResult
-                      ? index === currentQuestion.correctAnswer
-                        ? "default"
-                        : selectedAnswer === index
-                          ? "destructive"
-                          : "outline"
-                      : selectedAnswer === index
-                        ? "default"
-                        : "outline"
-                  }
-                  className="justify-start text-left h-auto p-4"
-                  onClick={() => handleAnswerSelect(index)}
-                  disabled={showResult || (selectedTime > 0 && timeLeft === 0)}
-                >
-                  <span className="font-semibold mr-3">{String.fromCharCode(65 + index)}.</span>
-                  {option}
-                </Button>
-              ))}
-            </div>
-
-            {!showResult && (
-              <Button
-                onClick={submitAnswer}
-                disabled={selectedAnswer === null || (selectedTime > 0 && timeLeft === 0)}
-                className="w-full bg-emerald-600 hover:bg-emerald-700"
-                size="lg"
-              >
-                Confirmar Respuesta
-              </Button>
-            )}
-
-            {showResult && (
-              <div className="space-y-4">
-                <div className="text-center p-4 rounded-lg bg-gray-50">
-                  {isCorrectAnswer ? (
-                    <div className="text-green-600">
-                      <p className="font-semibold text-lg">¡Correcto! 🎉</p>
-                      <p>¡Continúa jugando!</p>
-                      {consecutiveCorrect + 1 === 3 && (
-                        <p className="font-bold text-green-700">
-                          ¡Ganaste el personaje {categories.find((c) => c.name === currentQuestion.category)?.icon}!
-                        </p>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="text-red-600">
-                      <p className="font-semibold text-lg">
-                        {selectedTime > 0 && timeLeft === 0 ? "¡Se acabó el tiempo! ⏰" : "Incorrecto 😔"}
-                      </p>
-                      <p>La respuesta correcta era: {currentQuestion.options[currentQuestion.correctAnswer]}</p>
-                      <p className="text-sm">Turno para el otro equipo</p>
-                    </div>
-                  )}
-                </div>
-                <Button onClick={nextTurn} className="w-full bg-emerald-600 hover:bg-emerald-700" size="lg">
-                  {isCorrectAnswer ? "Continuar" : "Cambiar Turno"}
-                </Button>
-              </div>
-            )}
-          </CardContent>
-        </Card>
       </div>
     </div>
   )
