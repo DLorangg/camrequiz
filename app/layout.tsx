@@ -24,7 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} flex flex-col min-h-screen`}>
+      <body
+        className={`font-sans ${GeistSans.variable} ${GeistMono.variable} flex flex-col min-h-screen bg-gradient-to-br from-emerald-50 to-red-50`}
+      >
         <main className="flex-grow">{children}</main>
         <footer className="w-full text-center p-4 text-sm text-gray-500 bg-gray-50 border-t">
           <p>
