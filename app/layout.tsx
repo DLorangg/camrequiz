@@ -2,13 +2,14 @@ import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import { Analytics } from '@vercel/analytics/next'
+import { Logo } from '../public/images/camrevoc-logo.png'
 import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Camrequiz',
   description: 'Diseñado por Damián Lorang',
   icons: {
-    icon: '../public/images/camrevoc-logo.png', 
+    icon: Logo, 
   },
   openGraph: {
     title: 'CamreQuiz',
