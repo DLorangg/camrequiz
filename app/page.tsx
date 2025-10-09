@@ -18,28 +18,7 @@ interface Question {
 }
 
 const questions: Question[] = [
-  // Iglesia
-  {
-    id: 1,
-    question: "¿En que año se publica el primer Boletín Salesiano?",
-    options: ["1877", "1914", "1815", "1954"],
-    correctAnswer: 0,
-    category: "Iglesia",
-  },
-  {
-    id: 2,
-    question: "¿Cuál de estos no es un pilar del oratorio?",
-    options: ["Patio", "Amorevolezza", "Casa", "Escuela"],
-    correctAnswer: 1,
-    category: "Iglesia",
-  },
-  {
-    id: 3,
-    question: "¿Qué edad tenia Don Bosco cuando tuvo el primero de muchos, pero más recordado sueño?",
-    options: ["9 años", "10 años", "33 años", "15 años"],
-    correctAnswer: 0,
-    category: "Iglesia",
-  },
+  // Iglesia (preguntas que no son de Don Bosco)
   {
     id: 4,
     question: "¿Cómo se llama la banda uruguaya que tiene canciones con temáticas salesianas?",
@@ -48,49 +27,9 @@ const questions: Question[] = [
     category: "Iglesia",
   },
   {
-    id: 5,
-    question: "¿Qué club de futbol fue fundado por un sacerdote salesiano?",
-    options: ["River Plate", "Boca Juniors", "San Lorenzo de Almagro", "Desamparados de San Juan"],
-    correctAnswer: 2,
-    category: "Iglesia",
-  },
-  {
-    id: 6,
-    question: "¿Cuándo celebramos el día de María?",
-    options: ["24 de marzo", "24 de mayo", "24 de agosto", "24 de julio"],
-    correctAnswer: 1,
-    category: "Iglesia",
-  },
-  {
     id: 7,
     question: "¿Cuántas estaciones tiene el Vía Christi?",
     options: ["15", "23", "25", "33"],
-    correctAnswer: 1,
-    category: "Iglesia",
-  },
-  {
-    id: 8,
-    question: "¿Cómo se llamo el primer rector mayor de los salesianos luego de Don Bosco?",
-    options: ["Domingo Savio", "Miguel Rúa", "Juan Cagliero", "Pio IX"],
-    correctAnswer: 1,
-    category: "Iglesia",
-  },
-  {
-    id: 9,
-    question: "¿En que año Don Bosco es declarado santo?",
-    options: ["1934", "1916", "2002", "1898"],
-    correctAnswer: 0,
-    category: "Iglesia",
-  },
-  {
-    id: 10,
-    question: "¿Qué significa MJS en la espiritualidad salesiana?",
-    options: [
-      "Movimiento Juvenil Sagrado",
-      "Movimiento Juvenil Salesiano",
-      "Misión Joven Solidaria",
-      "Movimiento Joven del Sur",
-    ],
     correctAnswer: 1,
     category: "Iglesia",
   },
@@ -129,13 +68,6 @@ const questions: Question[] = [
     question: "¿Cuál de estos No es un Coordi de los 4 originales?",
     options: ["Gustavo", "Raul", "Natalia", "Oscar"],
     correctAnswer: 1,
-    category: "Camrevoc",
-  },
-  {
-    id: 14,
-    question: "¿En que etapa se ve la película de Don Bosco?",
-    options: ["2da", "6ta", "3ra", "4ta"],
-    correctAnswer: 3,
     category: "Camrevoc",
   },
   {
@@ -198,13 +130,6 @@ const questions: Question[] = [
     question: "¿Qué articulo no puede faltar en un campamento para Vasco?",
     options: ["Brújula", "Pelota", "Sifón de soda", "Cantimplora"],
     correctAnswer: 2,
-    category: "Camrevoc",
-  },
-  {
-    id: 23,
-    question: "¿Si escucho hablar de Madre Mazzarello y sistema preventivo en que etapa estoy?",
-    options: ["5ta", "6ta", "7ma", "4ta"],
-    correctAnswer: 1,
     category: "Camrevoc",
   },
   {
@@ -488,12 +413,83 @@ const questions: Question[] = [
     correctAnswer: 1,
     category: "Cultura general",
   },
+
+  // Don Bosco
+  {
+    id: 70,
+    question: "¿En que año se publica el primer Boletín Salesiano?",
+    options: ["1877", "1914", "1815", "1954"],
+    correctAnswer: 0,
+    category: "Don Bosco",
+  },
+  {
+    id: 71,
+    question: "¿Cuál de estos no es un pilar del oratorio?",
+    options: ["Patio", "Amorevolezza", "Casa", "Escuela"],
+    correctAnswer: 1,
+    category: "Camrevoc",
+  },
+  {
+    id: 72,
+    question: "¿Qué edad tenia Don Bosco cuando tuvo el primero de muchos, pero más recordado sueño?",
+    options: ["9 años", "10 años", "33 años", "15 años"],
+    correctAnswer: 0,
+    category: "Don Bosco",
+  },
+  {
+    id: 73,
+    question: "¿Qué club de futbol fue fundado por un sacerdote salesiano?",
+    options: ["River Plate", "Boca Juniors", "San Lorenzo de Almagro", "Desamparados de San Juan"],
+    correctAnswer: 2,
+    category: "Iglesia",
+  },
+  {
+    id: 74,
+    question: "¿Cuándo celebramos el día de María?",
+    options: ["24 de marzo", "24 de mayo", "24 de agosto", "24 de julio"],
+    correctAnswer: 1,
+    category: "Iglesia",
+  },
+  {
+    id: 75,
+    question: "¿Cómo se llamo el primer rector mayor de los salesianos luego de Don Bosco?",
+    options: ["Domingo Savio", "Miguel Rúa", "Juan Cagliero", "Pio IX"],
+    correctAnswer: 1,
+    category: "Don Bosco",
+  },
+  {
+    id: 76,
+    question: "¿En que año Don Bosco es declarado santo?",
+    options: ["1934", "1916", "2002", "1898"],
+    correctAnswer: 0,
+    category: "Don Bosco",
+  },
+  {
+    id: 77,
+    question: "¿Qué significa MJS en la espiritualidad salesiana?",
+    options: [
+      "Movimiento Juvenil Sagrado",
+      "Movimiento Juvenil Salesiano",
+      "Misión Joven Solidaria",
+      "Movimiento Joven del Sur",
+    ],
+    correctAnswer: 1,
+    category: "Iglesia",
+  },
+  {
+    id: 78,
+    question: "¿En que etapa se ve la película de Don Bosco?",
+    options: ["2da", "6ta", "3ra", "4ta"],
+    correctAnswer: 3,
+    category: "Camrevoc",
+  },
 ]
 
 const categories = [
   { name: "Iglesia", color: "bg-emerald-500", icon: "⛪", textColor: "text-white" },
   { name: "Camrevoc", color: "bg-red-500", icon: "🏕️", textColor: "text-white" },
   { name: "Cultura general", color: "bg-blue-500", icon: "🌍", textColor: "text-white" },
+  { name: "Don Bosco", color: "bg-orange-500", icon: "👨🏻‍⚖️", textColor: "text-white" },
 ]
 
 type GameState = "menu" | "categorySelection" | "spinning" | "playing" | "finished" | "setup"
