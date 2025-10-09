@@ -22,9 +22,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        {children}
+    <html lang="es">
+      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} flex flex-col min-h-screen`}>
+        <main className="flex-grow">{children}</main>
+        <footer className="w-full text-center p-4 text-sm text-gray-500 bg-gray-50 border-t">
+          <p>
+            Diseñado con ❤️ por <span className="font-semibold">Dami Lorang</span>
+          </p>
+        </footer>
         <Analytics />
       </body>
     </html>
