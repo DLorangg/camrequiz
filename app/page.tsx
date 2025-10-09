@@ -548,7 +548,7 @@ export default function CamreQuiz() {
     // Crear elementos de audio
     wheelSpinSoundRef.current = new Audio("/spinning.mp3")
     wheelStopSoundRef.current = new Audio("/stop.mp3")
-    tickSoundRef.current = new Audio("/tick.mp3")
+    //tickSoundRef.current = new Audio("/tick.mp3")
     correctSoundRef.current = new Audio("/correct.mp3")
     incorrectSoundRef.current = new Audio("/wrong.mp3")
     timeWarningSoundRef.current = new Audio("/warning.mp3")
@@ -1244,6 +1244,8 @@ export default function CamreQuiz() {
   }
 
   if (!currentQuestion) return null
+
+  const isCrownQuestion = availableCharactersForCrown.length > 0
 
   return (
     <div className="h-full p-4 flex flex-col">
