@@ -197,7 +197,7 @@ const questions: Question[] = [
     id: 24,
     question: "¿Cómo se llama el Hogar donde nos hospedamos en Junín?",
     options: ["Miguel Magone", "Juan Gregui", "Ceferino Namuncura", "Mama Margarita"],
-    correctAnswer: 3,
+    correctAnswer: 2,
     category: "Camrevoc",
   },
   {
@@ -717,9 +717,20 @@ export default function CamreQuiz() {
       playSound(incorrectSoundRef)
     }
 
+    const isCrownQuestion = availableCharactersForCrown.length > 0
+
     if (isCorrect) {
-      if (consecutiveCorrect + 1 === 3) {
-        // Racha de 2, activar selección de corona
+      if (isCrownQuestion) {
+        // Si es una pregunta de corona (por racha o por ruleta) y es correcta, se gana el personaje.
+        playSound(characterWonSoundRef)
+        if (currentTeam === 1) {
+          setTeam1Characters((prev) => ({ ...prev, [currentQuestion.category]: true }))
+        } else {
+          setTeam2Characters((prev) => ({ ...prev, [currentQuestion.category]: true }))
+        }
+        setConsecutiveCorrect(0) // La racha se reinicia al ganar un personaje.
+      } else if (consecutiveCorrect + 1 === 3) {
+        // Se alcanzó la racha de 3, se activa el menú corona.
         const currentTeamCharacters = currentTeam === 1 ? team1Characters : team2Characters
         const missingCharacters = categories
           .filter((cat) => selectedCategories.includes(cat.name))
@@ -731,15 +742,6 @@ export default function CamreQuiz() {
           setShowCharacterSelection(true)
         }
         setConsecutiveCorrect((prev) => prev + 1)
-      } else if (consecutiveCorrect + 1 === 4) {
-        // Racha de 3, personaje ganado
-        playSound(characterWonSoundRef)
-        if (currentTeam === 1) {
-          setTeam1Characters((prev) => ({ ...prev, [currentQuestion.category]: true }))
-        } else {
-          setTeam2Characters((prev) => ({ ...prev, [currentQuestion.category]: true }))
-        }
-        setConsecutiveCorrect(0)
       } else {
         setConsecutiveCorrect((prev) => prev + 1)
       }
@@ -1323,9 +1325,9 @@ export default function CamreQuiz() {
                   <div className="text-center">
                     <p className="font-semibold text-green-700">
                       ¡Racha de {consecutiveCorrect}!{" "}
-                      {consecutiveCorrect === 2
-                        ? "¡Responde bien para ganar el personaje!"
-                        : `${3 - consecutiveCorrect} más para ganar el personaje`}
+                      {consecutiveCorrect === 3
+                        ? "¡Elige un personaje y responde bien para ganarlo!"
+                        : `${3 - consecutiveCorrect} más para la corona!`}
                     </p>
                   </div>
                 </CardContent>
@@ -1387,12 +1389,12 @@ export default function CamreQuiz() {
                       {isCorrectAnswer ? (
                         <div className="text-green-600">
                           <p className="font-semibold text-lg">¡Correcto! 🎉</p>
-                          {consecutiveCorrect === 4 ? (
+                          {isCrownQuestion ? (
                             <p className="font-bold text-green-700">
                               ¡Ganaste el personaje {categories.find((c) => c.name === currentQuestion.category)?.icon}
                               !
                             </p>
-                          ) : consecutiveCorrect === 2 ? (
+                          ) : consecutiveCorrect === 3 ? (
                             <p>¡Ahora elige un personaje para ganar!</p>
                           ) : (
                             <p>¡Continúa jugando!</p>
