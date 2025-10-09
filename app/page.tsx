@@ -831,7 +831,7 @@ export default function CamreQuiz() {
 
   if (gameState === "menu") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-red-50 flex items-center justify-center p-4">
+      <div className="h-full bg-gradient-to-br from-emerald-50 to-red-50 flex items-center justify-center p-4">
         <Card className="w-full max-w-md text-center">
           <CardHeader className="space-y-4">
             <div className="mx-auto w-20 h-20 flex items-center justify-center">
@@ -876,7 +876,7 @@ export default function CamreQuiz() {
 
   if (gameState === "categorySelection") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-red-50 flex items-center justify-center p-4">
+      <div className="h-full bg-gradient-to-br from-emerald-50 to-red-50 flex items-center justify-center p-4">
         <Card className="w-full max-w-lg">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-emerald-700">Configurar Juego</CardTitle>
@@ -1001,7 +1001,7 @@ export default function CamreQuiz() {
     const currentCat = wheelCategories.find((c) => c.name === displayCategory)
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-red-50 flex items-center justify-center p-4">
+      <div className="h-full bg-gradient-to-br from-emerald-50 to-red-50 flex items-center justify-center p-4">
         <Card className="w-full max-w-2xl text-center">
           <CardHeader>
             <CardTitle className="text-3xl font-bold text-emerald-700">
@@ -1051,7 +1051,7 @@ export default function CamreQuiz() {
 
   if (gameState === "setup") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-red-50 flex items-center justify-center p-4">
+      <div className="h-full bg-gradient-to-br from-emerald-50 to-red-50 flex items-center justify-center p-4">
         <Card className="w-full max-w-2xl">
           <CardHeader className="text-center">
             <div className="flex justify-center mb-4">
@@ -1109,7 +1109,7 @@ export default function CamreQuiz() {
     const enabledCategories = categories.filter((c) => selectedCategories.includes(c.name))
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-red-50 flex items-center justify-center p-4">
+      <div className="h-full bg-gradient-to-br from-emerald-50 to-red-50 flex items-center justify-center p-4">
         <Card className="w-full max-w-md text-center">
           <CardHeader className="space-y-4">
             <div className="mx-auto w-16 h-16 bg-emerald-600 rounded-full flex items-center justify-center">
@@ -1170,7 +1170,7 @@ export default function CamreQuiz() {
 
   if (showCharacterSelection) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-red-50 p-4">
+      <div className="h-full bg-gradient-to-br from-emerald-50 to-red-50 p-4 flex flex-col items-center justify-center">
         <div className="max-w-4xl mx-auto space-y-6">
           <div className="text-center">
             <h1 className="text-3xl font-bold text-yellow-600 mb-2">👑 ¡CORONA! 👑</h1>
@@ -1209,7 +1209,7 @@ export default function CamreQuiz() {
   if (!currentQuestion) return null
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-red-50 p-4">
+    <div className="h-full bg-gradient-to-br from-emerald-50 to-red-50 p-4 flex flex-col">
       <div className="max-w-7xl mx-auto space-y-4">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold text-emerald-700">CamreQuiz</h1>
