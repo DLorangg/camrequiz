@@ -515,12 +515,13 @@ export default function CamreQuiz() {
 
   useEffect(() => {
     // Crear elementos de audio
-    wheelSpinSoundRef.current = new Audio("../public/spinning.mp3")
-    tickSoundRef.current = new Audio("/placeholder.mp3?query=clock tick sound effect")
-    correctSoundRef.current = new Audio("../public/correct.mp3")
-    incorrectSoundRef.current = new Audio("../public/wrong.mp3")
-    timeWarningSoundRef.current = new Audio("../public/warning.mp3")
-    characterWonSoundRef.current = new Audio("../public/character.mp3")
+    wheelSpinSoundRef.current = new Audio("/spinning.mp3")
+    wheelStopSoundRef.current = new Audio("/stop.mp3")
+    tickSoundRef.current = new Audio("/tick.mp3")
+    correctSoundRef.current = new Audio("/correct.mp3")
+    incorrectSoundRef.current = new Audio("/wrong.mp3")
+    timeWarningSoundRef.current = new Audio("/warning.mp3")
+    characterWonSoundRef.current = new Audio("/character.mp3")
 
     // Configurar volumen
     if (wheelSpinSoundRef.current) wheelSpinSoundRef.current.volume = 0.6
