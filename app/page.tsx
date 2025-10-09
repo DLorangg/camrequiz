@@ -5,9 +5,20 @@ import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge" 
+import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { Trophy, Users, Play, RotateCcw, Check, X, Clock, Crown, Volume2, VolumeX } from "lucide-react"
+import {
+  Trophy,
+  Users,
+  Play,
+  RotateCcw,
+  Check,
+  X,
+  Clock,
+  Crown,
+  Volume2,
+  VolumeX,
+} from "lucide-react"
 
 interface Question {
   id: number
@@ -533,6 +544,8 @@ export default function CamreQuiz() {
 
   const [showSpinButton, setShowSpinButton] = useState(true)
 
+  const [isSoundEnabled, setIsSoundEnabled] = useState(true)
+
   const wheelSpinSoundRef = useRef<HTMLAudioElement | null>(null)
   const wheelStopSoundRef = useRef<HTMLAudioElement | null>(null)
   const tickSoundRef = useRef<HTMLAudioElement | null>(null)
@@ -545,7 +558,6 @@ export default function CamreQuiz() {
   const [availableCharactersForCrown, setAvailableCharactersForCrown] = useState<string[]>([])
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     // Crear elementos de audio
     wheelSpinSoundRef.current = new Audio("/spinning.mp3")
     wheelStopSoundRef.current = new Audio("/stop.mp3")
@@ -575,8 +587,6 @@ export default function CamreQuiz() {
       characterWonSoundRef.current = null
     }
   }, [])
-
-  const [isSoundEnabled, setIsSoundEnabled] = useState(true)
 
   const playSound = (soundRef: React.RefObject<HTMLAudioElement>) => {
     if (isSoundEnabled && soundRef.current) {
@@ -1270,7 +1280,7 @@ export default function CamreQuiz() {
                 <span className="font-bold">{timeLeft > 0 ? `${timeLeft}s` : "¡Tiempo!"}</span>
               </div>
             )}
-            <Button variant="outline" size="icon" onClick={() => setIsSoundEnabled(!isSoundEnabled)} className="border-emerald-300 bg-transparent">
+            <Button variant="outline" size="icon" onClick={() => setIsSoundEnabled(!isSoundEnabled)}>
               {isSoundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
               <span className="sr-only">{isSoundEnabled ? "Desactivar sonido" : "Activar sonido"}</span>
             </Button>
