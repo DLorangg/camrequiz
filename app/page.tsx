@@ -680,6 +680,10 @@ export default function CamreQuiz() {
     setShowCharacterSelection(false)
     setSelectedCategory(categoryName)
 
+    // Reiniciar estado para la nueva pregunta
+    setShowResult(false)
+    setSelectedAnswer(null)
+
     const categoryQuestions = questions.filter((q) => q.category === categoryName && !usedQuestionIds.includes(q.id))
     if (categoryQuestions.length > 0) {
       const randomQuestion = categoryQuestions[Math.floor(Math.random() * categoryQuestions.length)]
@@ -714,7 +718,7 @@ export default function CamreQuiz() {
     }
 
     if (isCorrect) {
-      if (consecutiveCorrect + 1 === 2) {
+      if (consecutiveCorrect + 1 === 3) {
         // Racha de 2, activar selección de corona
         const currentTeamCharacters = currentTeam === 1 ? team1Characters : team2Characters
         const missingCharacters = categories
@@ -727,7 +731,7 @@ export default function CamreQuiz() {
           setShowCharacterSelection(true)
         }
         setConsecutiveCorrect((prev) => prev + 1)
-      } else if (consecutiveCorrect + 1 === 3) {
+      } else if (consecutiveCorrect + 1 === 4) {
         // Racha de 3, personaje ganado
         playSound(characterWonSoundRef)
         if (currentTeam === 1) {
@@ -745,7 +749,7 @@ export default function CamreQuiz() {
   }
 
   const nextTurn = () => {
-    if (isCorrectAnswer && consecutiveCorrect === 2) {
+    if (isCorrectAnswer && consecutiveCorrect === 3) {
       // Después de una racha de 2, se mostró el menú corona.
       // El jugador sigue su turno para la 3ra pregunta.
       setShowResult(false)
@@ -1383,7 +1387,7 @@ export default function CamreQuiz() {
                       {isCorrectAnswer ? (
                         <div className="text-green-600">
                           <p className="font-semibold text-lg">¡Correcto! 🎉</p>
-                          {consecutiveCorrect === 3 ? (
+                          {consecutiveCorrect === 4 ? (
                             <p className="font-bold text-green-700">
                               ¡Ganaste el personaje {categories.find((c) => c.name === currentQuestion.category)?.icon}
                               !
@@ -1405,7 +1409,7 @@ export default function CamreQuiz() {
                       )}
                     </div>
                     <Button onClick={nextTurn} className="w-full bg-emerald-600 hover:bg-emerald-700" size="lg">
-                      {isCorrectAnswer && consecutiveCorrect !== 2 ? "Continuar" : "Cambiar Turno"}
+                      {isCorrectAnswer && consecutiveCorrect !== 3 ? "Continuar" : "Cambiar Turno"}
                     </Button>
                   </div>
                 )}
