@@ -456,7 +456,7 @@ const questions: Question[] = [
   },
   {
     id: 74,
-    question: "¿Cuándo celebramos el día de María?",
+    question: "¿Cuándo celebramos el día de María Auxiliadora?",
     options: ["24 de marzo", "24 de mayo", "24 de agosto", "24 de julio"],
     correctAnswer: 1,
     category: "Iglesia",
