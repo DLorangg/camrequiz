@@ -365,7 +365,7 @@ const questions: Question[] = [
     id: 51,
     question: "¿Cuántos continentes hay en el mundo?",
     options: ["5", "6", "7", "8"],
-    correctAnswer: 2,
+    correctAnswer: 1,
     category: "Cultura general",
   },
   {
