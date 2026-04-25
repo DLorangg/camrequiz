@@ -88,13 +88,13 @@ if (startIdxSpin !== -1 && endIdxSpin !== -1) {
     setShowSpinButton(false)
 
     const wheelCategories = [...availableCategoriesWithQuestions]
-    wheelCategories.push({ name: "Corona", color: "bg-yellow-500", icon: "👑", textColor: "text-black" })
+    wheelCategories.push({ name: "Corona", color: "bg-yellow-500", icon: "👑", textColor: "text-black", image: "/characters/corona.png" })
 
     const isCrown = Math.random() < 0.2
-    let finalCategory: { name: string; color: string; icon: string; textColor: string }
+    let finalCategory: { name: string; color: string; icon: string; textColor: string; image: string }
 
     if (isCrown) {
-      finalCategory = { name: "Corona", color: "bg-yellow-500", icon: "👑", textColor: "text-black" }
+      finalCategory = { name: "Corona", color: "bg-yellow-500", icon: "👑", textColor: "text-black", image: "/characters/corona.png" }
     } else {
       const randomIndex = Math.floor(Math.random() * availableCategoriesWithQuestions.length)
       finalCategory = availableCategoriesWithQuestions[randomIndex]
