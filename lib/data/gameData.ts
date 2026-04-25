@@ -589,7 +589,7 @@ export const questions: Question[] = [
   {
     id: 111,
     question: "¿Cómo se llamaba la mamá de Don Bosco?",
-    options: ["María Mazzarello", "Margarita Occhiena", "Teresa Bosco", "Lucía Savio"],
+    options: ["María Mazzarello", "Margarita Occhiena", "Margarita Bosco", "Margarita Sarfatti"],
     correctAnswer: 1,
     category: "Don Bosco",
   },
@@ -678,7 +678,7 @@ export const questions: Question[] = [
   {
     id: 78,
     question: "¿En que etapa se ve la película de Don Bosco?",
-    options: ["2da", "6ta", "3ra", "4ta"],
+    options: ["2da", "5ta", "3ra", "4ta"],
     correctAnswer: 3,
     category: "Camrevoc",
   },
