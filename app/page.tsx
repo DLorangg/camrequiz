@@ -382,6 +382,7 @@ export default function CamreQuiz() {
                         hidden: { opacity: 0, y: 20 },
                         visible: { opacity: 1, y: 0 }
                       }}
+                      className="w-full"
                     >
                     <Button
                     variant={
@@ -395,7 +396,7 @@ export default function CamreQuiz() {
                           ? "default"
                           : "outline"
                     }
-                    className={`justify-start text-left h-auto p-4 ${
+                    className={`w-full justify-start text-left h-auto p-4 ${
                       isEliminated ? "opacity-40 grayscale" : ""
                     }`}
                     onClick={() => handleAnswerSelect(index)}
