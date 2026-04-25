@@ -88,7 +88,7 @@ export function useCamreQuiz() {
     }
   }, [])
 
-  const playSound = (soundRef: React.RefObject<HTMLAudioElement>) => {
+  const playSound = (soundRef: React.RefObject<HTMLAudioElement | null>) => {
     if (isSoundEnabled && soundRef.current) {
       soundRef.current.currentTime = 0
       soundRef.current.play().catch(() => {
