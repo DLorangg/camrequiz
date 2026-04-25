@@ -164,7 +164,7 @@ export function useCamreQuiz() {
 
     const availableCategories = categories.filter((c) => selectedCategories.includes(c.name))
     const wheelCategories = [...availableCategories]
-    wheelCategories.push({ name: "Corona", color: "bg-yellow-500", icon: "👑", textColor: "text-black" })
+    wheelCategories.push({ name: "Corona", color: "bg-yellow-500", icon: "👑", textColor: "text-black", image: "/characters/corona.png" })
 
     const isCrown = Math.random() < 0.2
     let winningIndex = 0
