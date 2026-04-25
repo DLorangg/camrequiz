@@ -49,7 +49,7 @@ export default function CamreQuiz() {
     isSpinning,
     consecutiveCorrect,
     selectedCategories,
-    spinningCategory,
+    prizeNumber,
     selectedTime,
     setSelectedTime,
     timeLeft,
@@ -62,6 +62,7 @@ export default function CamreQuiz() {
     startGameWithCategories,
     spinWheel,
     selectCharacterForCrown,
+    onStopSpinning,
     use5050,
     handleAnswerSelect,
     submitAnswer,
@@ -98,8 +99,8 @@ export default function CamreQuiz() {
       team2Name={team2Name}
       selectedCategories={selectedCategories}
       isSpinning={isSpinning}
-      spinningCategory={spinningCategory}
-      selectedCategory={selectedCategory}
+      prizeNumber={prizeNumber}
+      onStopSpinning={onStopSpinning}
       showSpinButton={showSpinButton}
       spinWheel={spinWheel}
     />

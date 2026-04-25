@@ -41,7 +41,7 @@ export function useCamreQuiz() {
   const [consecutiveCorrect, setConsecutiveCorrect] = useState(0)
   const [selectedCategories, setSelectedCategories] = useState<string[]>(categories.map((c) => c.name))
   const [wheelRotation, setWheelRotation] = useState(0)
-  const [spinningCategory, setSpinningCategory] = useState("")
+  const [prizeNumber, setPrizeNumber] = useState(0)
 
   const [selectedTime, setSelectedTime] = useState(30) // 30 segundos por defecto
   const [timeLeft, setTimeLeft] = useState(0)
@@ -149,7 +149,7 @@ export function useCamreQuiz() {
     setIsSpinning(false)
     setWheelRotation(0)
     setSelectedCategory("")
-    setSpinningCategory("")
+    setPrizeNumber(0)
     setTeam1Has5050(true)
     setTeam2Has5050(true)
     setEliminatedOptions([])
@@ -167,31 +167,24 @@ export function useCamreQuiz() {
     wheelCategories.push({ name: "Corona", color: "bg-yellow-500", icon: "👑", textColor: "text-black" })
 
     const isCrown = Math.random() < 0.2
-    let finalCategory: { name: string; color: string; icon: string; textColor: string }
+    let winningIndex = 0
 
     if (isCrown) {
-      finalCategory = { name: "Corona", color: "bg-yellow-500", icon: "👑", textColor: "text-black" }
+      winningIndex = wheelCategories.length - 1
     } else {
-      const randomIndex = Math.floor(Math.random() * availableCategories.length)
-      finalCategory = availableCategories[randomIndex]
+      winningIndex = Math.floor(Math.random() * availableCategories.length)
     }
 
-    let currentIndex = 0
-    const spinInterval = setInterval(() => {
-      setSpinningCategory(wheelCategories[currentIndex % wheelCategories.length].name)
-      currentIndex++
-    }, 100) // Cambia cada 100ms
+    setPrizeNumber(winningIndex)
+    setSelectedCategory(wheelCategories[winningIndex].name)
+  }
 
-    setTimeout(() => {
-      clearInterval(spinInterval)
-      setSelectedCategory(finalCategory.name)
-      setSpinningCategory("")
-      setIsSpinning(false)
-      setEliminatedOptions([])
+  const onStopSpinning = () => {
+    setIsSpinning(false)
+    setEliminatedOptions([])
+    playSound(wheelStopSoundRef)
 
-      playSound(wheelStopSoundRef)
-
-      if (finalCategory.name === "Corona") {
+    if (selectedCategory === "Corona") {
         const currentTeamCharacters = currentTeam === 1 ? team1Characters : team2Characters
         const missingCharacters = categories
           .filter((cat) => selectedCategories.includes(cat.name))
@@ -208,7 +201,7 @@ export function useCamreQuiz() {
         }
       } else {
         const categoryQuestions = questions.filter(
-          (q) => q.category === finalCategory.name && !usedQuestionIds.includes(q.id),
+          (q) => q.category === selectedCategory && !usedQuestionIds.includes(q.id),
         )
         if (categoryQuestions.length > 0) {
           const randomQuestion = categoryQuestions[Math.floor(Math.random() * categoryQuestions.length)]
@@ -221,12 +214,11 @@ export function useCamreQuiz() {
             setTimerActive(true)
           }
         } else {
-          alert(`¡No hay más preguntas en la categoría ${finalCategory.name}! Gira de nuevo.`)
+          alert(`¡No hay más preguntas en la categoría ${selectedCategory}! Gira de nuevo.`)
           setShowSpinButton(true)
           setGameState("spinning")
         }
       }
-    }, 5000) // 5 segundos de animación
   }
 
   const selectCharacterForCrown = (categoryName: string) => {
@@ -445,7 +437,7 @@ export function useCamreQuiz() {
     isSpinning,
     consecutiveCorrect,
     selectedCategories,
-    spinningCategory,
+    prizeNumber,
     selectedTime,
     setSelectedTime,
     timeLeft,
@@ -458,6 +450,7 @@ export function useCamreQuiz() {
     startGameWithCategories,
     spinWheel,
     selectCharacterForCrown,
+    onStopSpinning,
     use5050,
     handleAnswerSelect,
     submitAnswer,

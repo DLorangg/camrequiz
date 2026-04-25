@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Play } from "lucide-react"
 import { categories } from "@/lib/data/gameData"
+import { Wheel } from "react-custom-roulette"
 
 interface SpinningWheelProps {
   currentTeam: number;
@@ -11,11 +12,21 @@ interface SpinningWheelProps {
   team2Name: string;
   selectedCategories: string[];
   isSpinning: boolean;
-  spinningCategory: string;
-  selectedCategory: string;
+  prizeNumber: number;
   showSpinButton: boolean;
   spinWheel: () => void;
+  onStopSpinning: () => void;
 }
+
+const tailwindToHex: Record<string, string> = {
+  "bg-emerald-500": "#10b981",
+  "bg-red-500": "#ef4444",
+  "bg-blue-500": "#3b82f6",
+  "bg-orange-500": "#f97316",
+  "bg-yellow-500": "#eab308",
+  "text-white": "#ffffff",
+  "text-black": "#000000",
+};
 
 export default function SpinningWheel({
   currentTeam,
@@ -23,17 +34,22 @@ export default function SpinningWheel({
   team2Name,
   selectedCategories,
   isSpinning,
-  spinningCategory,
-  selectedCategory,
+  prizeNumber,
   showSpinButton,
-  spinWheel
+  spinWheel,
+  onStopSpinning
 }: SpinningWheelProps) {
     const availableCategories = categories.filter((c) => selectedCategories.includes(c.name))
     const wheelCategories = [...availableCategories]
     wheelCategories.push({ name: "Corona", color: "bg-yellow-500", icon: "👑", textColor: "text-black" })
 
-    const displayCategory = isSpinning ? spinningCategory : selectedCategory
-    const currentCat = wheelCategories.find((c) => c.name === displayCategory)
+    const data = wheelCategories.map((c) => ({
+      option: `${c.icon} ${c.name}`,
+      style: {
+        backgroundColor: tailwindToHex[c.color] || "#cbd5e1",
+        textColor: tailwindToHex[c.textColor] || "#ffffff"
+      }
+    }))
 
     return (
       <div className="h-full flex items-center justify-center p-4">
@@ -45,35 +61,30 @@ export default function SpinningWheel({
           </CardHeader>
           <CardContent className="space-y-8">
             <div className="relative mx-auto w-96 h-96 flex items-center justify-center">
-              <div
-                className={`w-64 h-64 rounded-3xl shadow-2xl flex flex-col items-center justify-center transition-all duration-200 ${
-                  currentCat ? currentCat.color : "bg-gray-200"
-                } ${currentCat ? currentCat.textColor : "text-gray-500"}`}
-              >
-                {isSpinning ? (
-                  <>
-                    <div className="text-8xl mb-4 animate-bounce">{currentCat?.icon || "?"}</div>
-                    <p className="text-2xl font-bold">{displayCategory || "..."}</p>
-                  </>
-                ) : displayCategory ? (
-                  <>
-                    <div className="text-8xl mb-4">{currentCat?.icon}</div>
-                    <p className="text-3xl font-bold">{displayCategory}</p>
-                  </>
-                ) : (
-                  <p className="text-xl font-semibold">Presiona GIRAR</p>
-                )}
-              </div>
+              <Wheel
+                mustStartSpinning={isSpinning}
+                prizeNumber={prizeNumber}
+                data={data}
+                onStopSpinning={onStopSpinning}
+                outerBorderColor="#e2e8f0"
+                outerBorderWidth={5}
+                innerBorderColor="#e2e8f0"
+                innerBorderWidth={5}
+                innerRadius={15}
+                radiusLineColor="#e2e8f0"
+                radiusLineWidth={2}
+                fontSize={16}
+                textDistance={65}
+                spinDuration={0.5}
+              />
 
               {!isSpinning && showSpinButton && (
-                <div className="absolute bottom-0">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
                   <Button
                     onClick={spinWheel}
-                    size="lg"
-                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-6 text-xl shadow-xl"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold h-20 w-20 rounded-full shadow-2xl flex items-center justify-center"
                   >
-                    <Play className="w-6 h-6 mr-2" />
-                    GIRAR
+                    <Play className="w-8 h-8 ml-1" />
                   </Button>
                 </div>
               )}
