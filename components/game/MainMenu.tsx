@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Users, Play } from "lucide-react"
 import { categories } from "@/lib/data/gameData"
+import Image from "next/image"
 
 interface MainMenuProps {
   startGame: () => void;
@@ -37,7 +38,9 @@ export default function MainMenu({ startGame }: MainMenuProps) {
               <div className="grid grid-cols-3 gap-2">
                 {categories.map((category) => (
                   <div key={category.name} className="text-center p-2 bg-white rounded border">
-                    <div className="text-2xl mb-1">{category.icon}</div>
+                    <div className="mb-2 flex justify-center">
+                      <Image src={category.image} alt={category.name} width={24} height={24} className="object-contain inline-block" />
+                    </div>
                     <p className="text-xs font-medium">{category.name}</p>
                   </div>
                 ))}

@@ -46,10 +46,15 @@ export default function SpinningWheel({
 }: SpinningWheelProps) {
     const availableCategories = categories.filter((c) => selectedCategories.includes(c.name))
     const wheelCategories = [...availableCategories]
-    wheelCategories.push({ name: "Corona", color: "bg-yellow-500", icon: "👑", textColor: "text-black" })
+    wheelCategories.push({ name: "Corona", color: "bg-yellow-500", icon: "👑", textColor: "text-black", image: "/characters/corona.png" })
 
     const data = wheelCategories.map((c) => ({
-      option: `${c.icon} ${c.name}`,
+      option: "",
+      image: c.image ? {
+        uri: c.image,
+        sizeMultiplier: 0.6,
+        offsetY: 160
+      } : undefined,
       style: {
         backgroundColor: tailwindToHex[c.color] || "#cbd5e1",
         textColor: tailwindToHex[c.textColor] || "#ffffff"

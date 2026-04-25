@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Users, Clock, Check, X, Play, RotateCcw } from "lucide-react"
 import { categories } from "@/lib/data/gameData"
 import { timeOptions } from "@/hooks/useCamreQuiz"
+import Image from "next/image"
 
 import { type GameState } from "@/hooks/useCamreQuiz"
 
@@ -115,7 +116,9 @@ export default function SetupScreen({
                     onClick={() => toggleCategory(category.name)}
                   >
                     <div className="flex items-center justify-between w-full">
-                      <div className="text-2xl">{category.icon}</div>
+                      <div className="flex items-center justify-center">
+                        <Image src={category.image} alt={category.name} width={24} height={24} className="object-contain inline-block" />
+                      </div>
                       {selectedCategories.includes(category.name) ? (
                         <Check className="w-5 h-5" />
                       ) : (
@@ -180,7 +183,9 @@ export default function SetupScreen({
                         : "bg-gray-100 text-gray-700 border-gray-300 hover:border-emerald-400"
                     }`}
                   >
-                    <div className="text-2xl mb-2">{category.icon}</div>
+                    <div className="mb-2 flex justify-center">
+                      <Image src={category.image} alt={category.name} width={24} height={24} className="object-contain inline-block" />
+                    </div>
                     <div className="font-medium">{category.name}</div>
                   </button>
                 ))}

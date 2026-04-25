@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Trophy, RotateCcw } from "lucide-react"
 import { categories } from "@/lib/data/gameData"
+import Image from "next/image"
 
 import { type TeamCharacters } from "@/hooks/useCamreQuiz"
 
@@ -49,7 +50,13 @@ export default function GameFinished({
                       key={category.name}
                       className={`text-lg p-1 rounded ${team1Characters[category.name] ? "bg-green-200" : "bg-gray-200"}`}
                     >
-                      {category.icon}
+                      <Image 
+                        src={category.image} 
+                        alt={category.name} 
+                        width={32} 
+                        height={32} 
+                        className="object-contain mx-auto" 
+                      />
                     </div>
                   ))}
                 </div>
@@ -66,7 +73,13 @@ export default function GameFinished({
                       key={category.name}
                       className={`text-lg p-1 rounded ${team2Characters[category.name] ? "bg-green-200 border-green-400" : "bg-gray-100 border-gray-300"}`}
                     >
-                      {category.icon}
+                      <Image 
+                        src={category.image} 
+                        alt={category.name} 
+                        width={32} 
+                        height={32} 
+                        className="object-contain mx-auto" 
+                      />
                     </div>
                   ))}
                 </div>

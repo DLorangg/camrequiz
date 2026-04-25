@@ -475,8 +475,8 @@ export const questions: Question[] = [
 ]
 
 export const categories = [
-  { name: "Iglesia", color: "bg-emerald-500", icon: "⛪", textColor: "text-white" },
-  { name: "Camrevoc", color: "bg-red-500", icon: "🏕️", textColor: "text-white" },
-  { name: "Cultura general", color: "bg-blue-500", icon: "🌍", textColor: "text-white" },
-  { name: "Don Bosco", color: "bg-orange-500", icon: "👨🏻‍⚖️", textColor: "text-white" },
+  { name: "Iglesia", color: "bg-emerald-500", icon: "⛪", textColor: "text-white", image: "/characters/iglesia.png" },
+  { name: "Camrevoc", color: "bg-red-500", icon: "🏕️", textColor: "text-white", image: "/characters/camrevoc.png" },
+  { name: "Cultura general", color: "bg-blue-500", icon: "🌍", textColor: "text-white", image: "/characters/cultura.png" },
+  { name: "Don Bosco", color: "bg-orange-500", icon: "👨🏻‍⚖️", textColor: "text-white", image: "/characters/donbosco.png" },
 ]

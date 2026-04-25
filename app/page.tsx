@@ -20,6 +20,7 @@ import {
 } from "lucide-react"
 
 import { type Question, questions, categories } from "@/lib/data/gameData"
+import Image from "next/image"
 
 import { useCamreQuiz, timeOptions } from "@/hooks/useCamreQuiz"
 import MainMenu from "@/components/game/MainMenu"
@@ -161,6 +162,7 @@ export default function CamreQuiz() {
   if (!currentQuestion) return null
 
   const isCrownQuestion = availableCharactersForCrown.length > 0
+  const currentCategoryInfo = categories.find((c) => c.name === currentQuestion?.category)
 
   return (
     <div className="h-full p-4 flex flex-col">
@@ -263,7 +265,13 @@ export default function CamreQuiz() {
                             key={categoryName}
                             className="flex items-center space-x-1 bg-yellow-100 border-2 border-yellow-400 rounded-full px-3 py-1"
                           >
-                            <span className="text-lg">{category?.icon}</span>
+                            <Image 
+                              src={category?.image || ""} 
+                              alt={category?.name || ""} 
+                              width={24} 
+                              height={24} 
+                              className="object-contain" 
+                            />
                             <span className="text-xs font-semibold text-gray-700">{categoryName}</span>
                           </div>
                         )
@@ -298,11 +306,20 @@ export default function CamreQuiz() {
 
           <Card className="bg-white flex flex-col">
             <CardHeader>
-              <div className="flex items-center justify-between">
-                <Badge variant="outline" className="border-emerald-300">
-                  {categories.find((c) => c.name === currentQuestion.category)?.icon} {currentQuestion.category}
-                </Badge>
-                <span className="text-sm text-gray-500">{currentTeam === 1 ? team1Name : team2Name}</span>
+              <div className="flex items-start justify-between">
+                <div className="flex flex-col items-center">
+                  <Image 
+                    src={currentCategoryInfo?.image || ""} 
+                    alt={currentCategoryInfo?.name || ""} 
+                    width={40} 
+                    height={40} 
+                    className="object-contain drop-shadow-sm mx-auto mb-2" 
+                  />
+                  <Badge variant="outline" className="border-emerald-300">
+                    {currentQuestion.category}
+                  </Badge>
+                </div>
+                <span className="text-sm text-gray-500 mt-1">{currentTeam === 1 ? team1Name : team2Name}</span>
               </div>
               <CardTitle className="text-xl text-balance pt-2">{currentQuestion.question}</CardTitle>
             </CardHeader>
