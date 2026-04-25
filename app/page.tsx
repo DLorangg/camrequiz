@@ -145,7 +145,13 @@ export default function CamreQuiz() {
                       onClick={() => selectCharacterForCrown(categoryName)}
                       className="h-auto p-6 flex flex-col items-center space-y-3 bg-gradient-to-br from-yellow-100 to-yellow-200 hover:from-yellow-200 hover:to-yellow-300 border-2 border-yellow-400 text-gray-800"
                     >
-                      <div className="text-4xl">{category.icon}</div>
+                  <Image 
+                    src={category.image} 
+                    alt={category.name} 
+                    width={80} 
+                    height={80} 
+                    className="object-contain drop-shadow-md" 
+                  />
                       <span className="font-semibold text-center">{category.name}</span>
                       <span className="text-xs text-gray-600">¡Responde para conseguirlo!</span>
                     </Button>
@@ -227,7 +233,13 @@ export default function CamreQuiz() {
                             key={categoryName}
                             className="flex items-center space-x-1 bg-yellow-100 border-2 border-yellow-400 rounded-full px-3 py-1"
                           >
-                            <span className="text-lg">{category?.icon}</span>
+                        <Image 
+                          src={category?.image || ""} 
+                          alt={category?.name || ""} 
+                          width={24} 
+                          height={24} 
+                          className="object-contain" 
+                        />
                             <span className="text-xs font-semibold text-gray-700">{categoryName}</span>
                           </div>
                         )
@@ -374,8 +386,14 @@ export default function CamreQuiz() {
                           <p className="font-semibold text-lg">¡Correcto! 🎉</p>
                           {isCrownQuestion ? (
                             <p className="font-bold text-green-700">
-                              ¡Ganaste el personaje {categories.find((c) => c.name === currentQuestion.category)?.icon}
-                              !
+                          ¡Ganaste el personaje{" "}
+                          <Image 
+                            src={categories.find((c) => c.name === currentQuestion.category)?.image || ""} 
+                            alt={currentQuestion.category} 
+                            width={24} 
+                            height={24} 
+                            className="inline-block object-contain align-middle" 
+                          />!
                             </p>
                           ) : consecutiveCorrect === 3 ? (
                             <p>¡Ahora elige un personaje para ganar!</p>
