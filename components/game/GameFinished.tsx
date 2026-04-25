@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Trophy, RotateCcw } from "lucide-react"
 import { categories } from "@/lib/data/gameData"
 import Image from "next/image"
+import { motion } from "framer-motion"
 
 import { type TeamCharacters } from "@/hooks/useCamreQuiz"
 
@@ -31,7 +32,13 @@ export default function GameFinished({
 
     return (
       <div className="h-full flex items-center justify-center p-4">
-        <Card className="w-full max-w-md text-center">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5, type: 'spring' }}
+          className="w-full max-w-md"
+        >
+          <Card className="w-full text-center">
           <CardHeader className="space-y-4">
             <div className="mx-auto w-16 h-16 bg-emerald-600 rounded-full flex items-center justify-center">
               <Trophy className="w-8 h-8 text-white" />
@@ -45,9 +52,12 @@ export default function GameFinished({
               <div className="text-center p-4 bg-white rounded-lg border-2 border-emerald-200">
                 <p className="font-semibold mb-2">{team1Name}</p>
                 <div className="grid grid-cols-3 gap-1">
-                  {enabledCategories.map((category) => (
-                    <div
+                  {enabledCategories.map((category, index) => (
+                    <motion.div
                       key={category.name}
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: index * 0.15 }}
                       className={`text-lg p-1 rounded ${team1Characters[category.name] ? "bg-green-200" : "bg-gray-200"}`}
                     >
                       <Image 
@@ -57,7 +67,7 @@ export default function GameFinished({
                         height={32} 
                         className="object-contain mx-auto" 
                       />
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
                 <p className="text-sm text-gray-600">
@@ -68,9 +78,12 @@ export default function GameFinished({
               <div className="text-center p-4 bg-white rounded-lg border-2 border-red-200">
                 <p className="font-semibold mb-2">{team2Name}</p>
                 <div className="grid grid-cols-3 gap-1">
-                  {enabledCategories.map((category) => (
-                    <div
+                  {enabledCategories.map((category, index) => (
+                    <motion.div
                       key={category.name}
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: index * 0.15 }}
                       className={`text-lg p-1 rounded ${team2Characters[category.name] ? "bg-green-200 border-green-400" : "bg-gray-100 border-gray-300"}`}
                     >
                       <Image 
@@ -80,7 +93,7 @@ export default function GameFinished({
                         height={32} 
                         className="object-contain mx-auto" 
                       />
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
                 <p className="text-sm text-gray-600">
@@ -95,6 +108,7 @@ export default function GameFinished({
             </Button>
           </CardContent>
         </Card>
+        </motion.div>
       </div>
     )
 

@@ -21,6 +21,7 @@ import {
 
 import { type Question, questions, categories } from "@/lib/data/gameData"
 import Image from "next/image"
+import { motion } from "framer-motion"
 
 import { useCamreQuiz, timeOptions } from "@/hooks/useCamreQuiz"
 import MainMenu from "@/components/game/MainMenu"
@@ -145,13 +146,19 @@ export default function CamreQuiz() {
                       onClick={() => selectCharacterForCrown(categoryName)}
                       className="h-auto p-6 flex flex-col items-center space-y-3 bg-gradient-to-br from-yellow-100 to-yellow-200 hover:from-yellow-200 hover:to-yellow-300 border-2 border-yellow-400 text-gray-800"
                     >
-                  <Image 
-                    src={category.image} 
-                    alt={category.name} 
-                    width={80} 
-                    height={80} 
-                    className="object-contain drop-shadow-md" 
-                  />
+                      <motion.div
+                        initial={{ scale: 0, rotate: -10 }}
+                        animate={{ scale: 1, rotate: 0 }}
+                        transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                      >
+                        <Image 
+                          src={category.image} 
+                          alt={category.name} 
+                          width={80} 
+                          height={80} 
+                          className="object-contain drop-shadow-md" 
+                        />
+                      </motion.div>
                       <span className="font-semibold text-center">{category.name}</span>
                       <span className="text-xs text-gray-600">¡Responde para conseguirlo!</span>
                     </Button>
@@ -233,13 +240,19 @@ export default function CamreQuiz() {
                             key={categoryName}
                             className="flex items-center space-x-1 bg-yellow-100 border-2 border-yellow-400 rounded-full px-3 py-1"
                           >
-                        <Image 
-                          src={category?.image || ""} 
-                          alt={category?.name || ""} 
-                          width={24} 
-                          height={24} 
-                          className="object-contain" 
-                        />
+                            <motion.div
+                              initial={{ scale: 0, rotate: -10 }}
+                              animate={{ scale: 1, rotate: 0 }}
+                              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                            >
+                              <Image 
+                                src={category?.image || ""} 
+                                alt={category?.name || ""} 
+                                width={24} 
+                                height={24} 
+                                className="object-contain" 
+                              />
+                            </motion.div>
                             <span className="text-xs font-semibold text-gray-700">{categoryName}</span>
                           </div>
                         )
@@ -277,13 +290,19 @@ export default function CamreQuiz() {
                             key={categoryName}
                             className="flex items-center space-x-1 bg-yellow-100 border-2 border-yellow-400 rounded-full px-3 py-1"
                           >
-                            <Image 
-                              src={category?.image || ""} 
-                              alt={category?.name || ""} 
-                              width={24} 
-                              height={24} 
-                              className="object-contain" 
-                            />
+                            <motion.div
+                              initial={{ scale: 0, rotate: -10 }}
+                              animate={{ scale: 1, rotate: 0 }}
+                              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                            >
+                              <Image 
+                                src={category?.image || ""} 
+                                alt={category?.name || ""} 
+                                width={24} 
+                                height={24} 
+                                className="object-contain" 
+                              />
+                            </motion.div>
                             <span className="text-xs font-semibold text-gray-700">{categoryName}</span>
                           </div>
                         )
@@ -316,8 +335,14 @@ export default function CamreQuiz() {
             )}
           </div>
 
-          <Card className="bg-white flex flex-col">
-            <CardHeader>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col h-full"
+          >
+            <Card className="bg-white flex flex-col h-full">
+              <CardHeader>
               <div className="flex items-start justify-between">
                 <div className="flex flex-col items-center">
                   <Image 
@@ -336,12 +361,29 @@ export default function CamreQuiz() {
               <CardTitle className="text-xl text-balance pt-2">{currentQuestion.question}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 flex-grow flex flex-col justify-between">
-              <div className="grid gap-3">
+              <motion.div
+                className="grid gap-3"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
+                  }
+                }}
+              >
                 {currentQuestion.options.map((option, index) => {
                   const isEliminated = eliminatedOptions.includes(index)
                   return (
-                  <Button
-                    key={index}
+                    <motion.div
+                      key={index}
+                      variants={{
+                        hidden: { opacity: 0, y: 20 },
+                        visible: { opacity: 1, y: 0 }
+                      }}
+                    >
+                    <Button
                     variant={
                       showResult
                         ? index === currentQuestion.correctAnswer
@@ -362,9 +404,10 @@ export default function CamreQuiz() {
                     <span className="font-semibold mr-3">{String.fromCharCode(65 + index)}.</span>
                     {option}
                   </Button>
+                    </motion.div>
                   )
                 })}
-              </div>
+              </motion.div>
 
               <div className="mt-auto pt-4">
                 {!showResult && (
@@ -418,9 +461,10 @@ export default function CamreQuiz() {
                 )}
               </div>
             </CardContent>
-          </Card>
+            </Card>
+          </motion.div>
+          </div>
         </div>
       </div>
-    </div>
   )
 }
