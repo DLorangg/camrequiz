@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { type Question, questions, categories } from "@/lib/data/gameData"
+import confetti from "canvas-confetti"
 
 export type GameState = "menu" | "categorySelection" | "spinning" | "playing" | "finished" | "setup"
 
@@ -23,6 +24,10 @@ export function useCamreQuiz() {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null)
   const [showResult, setShowResult] = useState(false)
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(false)
+
+  const [team1Has5050, setTeam1Has5050] = useState(true)
+  const [team2Has5050, setTeam2Has5050] = useState(true)
+  const [eliminatedOptions, setEliminatedOptions] = useState<number[]>([])
 
   const [team1Name, setTeam1Name] = useState("Equipo 1")
   const [team2Name, setTeam2Name] = useState("Equipo 2")
@@ -145,6 +150,9 @@ export function useCamreQuiz() {
     setWheelRotation(0)
     setSelectedCategory("")
     setSpinningCategory("")
+    setTeam1Has5050(true)
+    setTeam2Has5050(true)
+    setEliminatedOptions([])
   }
 
   const spinWheel = () => {
@@ -179,6 +187,7 @@ export function useCamreQuiz() {
       setSelectedCategory(finalCategory.name)
       setSpinningCategory("")
       setIsSpinning(false)
+      setEliminatedOptions([])
 
       playSound(wheelStopSoundRef)
 
@@ -227,6 +236,7 @@ export function useCamreQuiz() {
     // Reiniciar estado para la nueva pregunta
     setShowResult(false)
     setSelectedAnswer(null)
+    setEliminatedOptions([])
 
     const categoryQuestions = questions.filter((q) => q.category === categoryName && !usedQuestionIds.includes(q.id))
     if (categoryQuestions.length > 0) {
@@ -238,6 +248,31 @@ export function useCamreQuiz() {
     if (selectedTime > 0) {
       setTimeLeft(selectedTime)
       setTimerActive(true)
+    }
+  }
+
+  const use5050 = () => {
+    if (!currentQuestion || showResult || eliminatedOptions.length > 0) return
+
+    const has5050 = currentTeam === 1 ? team1Has5050 : team2Has5050
+    if (!has5050) return
+
+    if (currentTeam === 1) setTeam1Has5050(false)
+    else setTeam2Has5050(false)
+
+    const incorrectIndexes = []
+    for (let i = 0; i < currentQuestion.options.length; i++) {
+      if (i !== currentQuestion.correctAnswer) {
+        incorrectIndexes.push(i)
+      }
+    }
+
+    const shuffled = [...incorrectIndexes].sort(() => 0.5 - Math.random())
+    const eliminated = [shuffled[0], shuffled[1]]
+    setEliminatedOptions(eliminated)
+
+    if (selectedAnswer !== null && eliminated.includes(selectedAnswer)) {
+      setSelectedAnswer(null) // Deseleccionar si su opción fue eliminada
     }
   }
 
@@ -267,6 +302,12 @@ export function useCamreQuiz() {
       if (isCrownQuestion) {
         // Si es una pregunta de corona (por racha o por ruleta) y es correcta, se gana el personaje.
         playSound(characterWonSoundRef)
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#10b981', '#eab308'] // Colores esmeralda y amarillo (corona)
+        })
         if (currentTeam === 1) {
           setTeam1Characters((prev) => ({ ...prev, [currentQuestion.category]: true }))
         } else {
@@ -320,6 +361,7 @@ export function useCamreQuiz() {
     setWheelRotation(0)
     setShowCharacterSelection(false)
     setAvailableCharactersForCrown([])
+    setEliminatedOptions([])
   }
 
   const checkWinner = () => {
@@ -357,6 +399,9 @@ export function useCamreQuiz() {
     setAvailableCharactersForCrown([])
     setTeam1Name("Equipo 1")
     setTeam2Name("Equipo 2")
+    setTeam1Has5050(true)
+    setTeam2Has5050(true)
+    setEliminatedOptions([])
   }
 
   const toggleCategory = (categoryName: string) => {
@@ -393,6 +438,9 @@ export function useCamreQuiz() {
     setTeam2Name,
     team1Characters,
     team2Characters,
+    team1Has5050,
+    team2Has5050,
+    eliminatedOptions,
     selectedCategory,
     isSpinning,
     consecutiveCorrect,
@@ -410,6 +458,7 @@ export function useCamreQuiz() {
     startGameWithCategories,
     spinWheel,
     selectCharacterForCrown,
+    use5050,
     handleAnswerSelect,
     submitAnswer,
     nextTurn,

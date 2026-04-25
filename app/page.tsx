@@ -42,6 +42,9 @@ export default function CamreQuiz() {
     setTeam2Name,
     team1Characters,
     team2Characters,
+    team1Has5050,
+    team2Has5050,
+    eliminatedOptions,
     selectedCategory,
     isSpinning,
     consecutiveCorrect,
@@ -59,6 +62,7 @@ export default function CamreQuiz() {
     startGameWithCategories,
     spinWheel,
     selectCharacterForCrown,
+    use5050,
     handleAnswerSelect,
     submitAnswer,
     nextTurn,
@@ -163,6 +167,15 @@ export default function CamreQuiz() {
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold text-emerald-700">CamreQuiz</h1>
           <div className="flex items-center space-x-4">
+            <Button
+              variant="outline"
+              className="border-purple-400 text-purple-700 bg-purple-50 hover:bg-purple-100 font-bold"
+              disabled={(currentTeam === 1 ? !team1Has5050 : !team2Has5050) || showResult || eliminatedOptions.length > 0}
+              onClick={use5050}
+              title="Usar comodín 50/50 (1 por equipo)"
+            >
+              50/50
+            </Button>
             {selectedTime > 0 && (
               <div
                 className={`flex items-center space-x-2 px-3 py-2 rounded-lg ${
@@ -294,7 +307,9 @@ export default function CamreQuiz() {
             </CardHeader>
             <CardContent className="space-y-4 flex-grow flex flex-col justify-between">
               <div className="grid gap-3">
-                {currentQuestion.options.map((option, index) => (
+                {currentQuestion.options.map((option, index) => {
+                  const isEliminated = eliminatedOptions.includes(index)
+                  return (
                   <Button
                     key={index}
                     variant={
@@ -308,14 +323,17 @@ export default function CamreQuiz() {
                           ? "default"
                           : "outline"
                     }
-                    className="justify-start text-left h-auto p-4"
+                    className={`justify-start text-left h-auto p-4 ${
+                      isEliminated ? "opacity-40 grayscale" : ""
+                    }`}
                     onClick={() => handleAnswerSelect(index)}
-                    disabled={showResult || (selectedTime > 0 && timeLeft === 0)}
+                    disabled={showResult || (selectedTime > 0 && timeLeft === 0) || isEliminated}
                   >
                     <span className="font-semibold mr-3">{String.fromCharCode(65 + index)}.</span>
                     {option}
                   </Button>
-                ))}
+                  )
+                })}
               </div>
 
               <div className="mt-auto pt-4">
