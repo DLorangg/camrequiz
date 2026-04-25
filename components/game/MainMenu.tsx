@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Users, Play } from "lucide-react"
 import { categories } from "@/lib/data/gameData"
 import Image from "next/image"
+import { motion } from "framer-motion"
 
 interface MainMenuProps {
   startGame: () => void;
@@ -13,7 +14,13 @@ interface MainMenuProps {
 export default function MainMenu({ startGame }: MainMenuProps) {
     return (
       <div className="h-full flex items-center justify-center p-4">
-        <Card className="w-full max-w-md text-center">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
+          className="w-full max-w-md"
+        >
+          <Card className="w-full text-center">
           <CardHeader className="space-y-4">
             <div className="mx-auto w-20 h-20 flex items-center justify-center">
               <img src="/images/camrevoc-logo.png" alt="Camrevoc Logo" className="w-full h-full object-contain" />
@@ -52,7 +59,8 @@ export default function MainMenu({ startGame }: MainMenuProps) {
               Comenzar Juego
             </Button>
           </CardContent>
-        </Card>
+          </Card>
+        </motion.div>
       </div>
     )
 

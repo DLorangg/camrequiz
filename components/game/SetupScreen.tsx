@@ -7,6 +7,7 @@ import { Users, Clock, Check, X, Play, RotateCcw } from "lucide-react"
 import { categories } from "@/lib/data/gameData"
 import { timeOptions } from "@/hooks/useCamreQuiz"
 import Image from "next/image"
+import { motion } from "framer-motion"
 
 import { type GameState } from "@/hooks/useCamreQuiz"
 
@@ -40,7 +41,13 @@ export default function SetupScreen({
   if (gameState === "categorySelection") {
     return (
       <div className="h-full flex items-center justify-center p-4">
-        <Card className="w-full max-w-lg">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
+          className="w-full max-w-lg"
+        >
+          <Card className="w-full">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-emerald-700">Configurar Juego</CardTitle>
             <p className="text-gray-600">Personaliza tu experiencia de juego</p>
@@ -152,7 +159,8 @@ export default function SetupScreen({
               </Button>
             </div>
           </CardContent>
-        </Card>
+          </Card>
+        </motion.div>
       </div>
     )
   }
@@ -161,7 +169,13 @@ export default function SetupScreen({
   if (gameState === "setup") {
     return (
       <div className="h-full flex items-center justify-center p-4">
-        <Card className="w-full max-w-2xl">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
+          className="w-full max-w-2xl"
+        >
+          <Card className="w-full">
           <CardHeader className="text-center">
             <div className="flex justify-center mb-4">
               <img src="/images/camrevoc-logo.png" alt="Camrevoc Logo" className="w-24 h-24" />
@@ -211,7 +225,8 @@ export default function SetupScreen({
               </Button>
             </div>
           </CardContent>
-        </Card>
+          </Card>
+        </motion.div>
       </div>
     )
   }
