@@ -158,6 +158,9 @@ importers:
       recharts:
         specifier: 2.15.4
         version: 2.15.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      serwist:
+        specifier: ^9.5.7
+        version: 9.5.7(browserslist@4.26.3)(typescript@5.0.2)
       sonner:
         specifier: ^1.7.4
         version: 1.7.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -2973,6 +2976,10 @@ snapshots:
     transitivePeerDependencies:
       - webpack
 
+  '@serwist/utils@9.5.7(browserslist@4.26.3)':
+    optionalDependencies:
+      browserslist: 4.26.3
+
   '@serwist/utils@9.5.7(browserslist@4.28.1)':
     optionalDependencies:
       browserslist: 4.28.1
@@ -3619,6 +3626,15 @@ snapshots:
   semver@7.7.4: {}
 
   server-only@0.0.1: {}
+
+  serwist@9.5.7(browserslist@4.26.3)(typescript@5.0.2):
+    dependencies:
+      '@serwist/utils': 9.5.7(browserslist@4.26.3)
+      idb: 8.0.3
+    optionalDependencies:
+      typescript: 5.0.2
+    transitivePeerDependencies:
+      - browserslist
 
   serwist@9.5.7(browserslist@4.28.1)(typescript@5.0.2):
     dependencies:
