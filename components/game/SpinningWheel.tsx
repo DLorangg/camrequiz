@@ -4,7 +4,12 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Play } from "lucide-react"
 import { categories } from "@/lib/data/gameData"
-import { Wheel } from "react-custom-roulette"
+import dynamic from "next/dynamic"
+
+const Wheel = dynamic(
+  () => import("react-custom-roulette").then((mod) => mod.Wheel),
+  { ssr: false }
+)
 
 interface SpinningWheelProps {
   currentTeam: number;
